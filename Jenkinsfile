@@ -48,7 +48,7 @@ pipeline {
                 sshagent(credentials: ['prod-ssh-key']) {
                     sh '''
                        ssh -o StrictHostKeyChecking=no ubuntu@$PROD_IP \
-                          "kubectl set image deployment/cw2-image \
+                          "sudo kubectl set image deployment/cw2-image \
                            cw2-container=$IMAGE --record"
                     '''
                 }
