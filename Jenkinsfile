@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CRED = credentials('docker-cred')
-        SSH_KEY        = credentials('prod-ssh-key')
         IMAGE          = "userphnx/cw2-server:1.0"
         PROD_IP        = "ec2-13-221-145-169.compute-1.amazonaws.com"
     }
@@ -46,7 +45,7 @@ pipeline {
 
         stage('deploy to kubernetes') {
             steps {
-                sshagent(credentials: ["$SSH_KEY"]) {
+                sshagent(credentials: ['prod-ssh-key']) {
                     sh '''
                        ssh -o StrictHostKeyChecking=no ubuntu@$PROD_IP \
                           "kubectl set image deployment/cw2-image \
