@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CRED = credentials('docker-cred')
-        IMAGE          = "userphnx/cw2-server:1.0"
+        IMAGE          = "userphnx/cw2-server:${env.BUILD_NUMBER}"
         PROD_IP        = "ec2-13-221-145-169.compute-1.amazonaws.com"
     }
 
