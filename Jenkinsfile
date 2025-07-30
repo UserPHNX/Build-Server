@@ -49,7 +49,7 @@ pipeline {
                     sh '''
                        ssh -o StrictHostKeyChecking=no ubuntu@$PROD_IP \
                           "sudo kubectl set image deployment/cw2-image \
-                           cw2-container=$IMAGE --record"
+                           cw2-server=$IMAGE --record"
                     '''
                 }
             }
