@@ -14,19 +14,29 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('detect changes in repo') {
             steps {
                 git url: 'https://github.com/UserPHNX/Build-Server.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('build docker image') {
             steps {
                 sh 'docker build -t $IMAGE .'
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('test container launch') {
+            steps {
+                sh '''
+                   docker run -d --name test-container $IMAGE
+                   docker exec test-container echo "Container started successfully"
+                   docker rm -f test-container
+                '''
+            }
+        }
+
+        stage('push image to docker') {
             steps {
                 withDockerRegistry([credentialsId: "${DOCKERHUB_CRED}", url: '']) {
                     sh 'docker push $IMAGE'
@@ -34,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('deploy to kubernetes') {
             steps {
                 sshagent(credentials: ["$SSH_KEY"]) {
                     sh '''
