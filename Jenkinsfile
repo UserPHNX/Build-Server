@@ -16,7 +16,7 @@ pipeline {
 
         stage('detect changes in repo') {
             steps {
-                git url: 'https://github.com/UserPHNX/Build-Server.git'
+                git branch: 'main', url: 'https://github.com/UserPHNX/Build-Server.git'
             }
         }
 
